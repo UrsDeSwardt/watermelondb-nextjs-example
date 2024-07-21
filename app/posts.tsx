@@ -3,10 +3,10 @@ import { useDatabase, withObservables } from "@nozbe/watermelondb/react";
 import { Post, Comment } from "@/db/models";
 import { withDatabase } from "@nozbe/watermelondb/DatabaseProvider";
 import { Database } from "@nozbe/watermelondb";
-import { useGetComments, useGetPosts } from "./hooks/useReadDatabase";
+import { useGetComments, useGetPosts } from "../hooks/useReadDatabase";
 
 const Posts = () => {
-  const posts = useGetPosts(); // this is the magic hook
+  const posts = useGetPosts(); // we need to use this hoof for observability to work.
 
   return (
     <div>
@@ -32,7 +32,7 @@ const EnhancedPostsList = withObservables(["posts"], ({ posts }) => ({
 }))(PostsList);
 
 const PostItem = ({ post }: { post: Post }) => {
-  const comments = useGetComments(post.id); // this is the magic hook
+  const comments = useGetComments(post.id); // we need to use this hoof for observability to work.
 
   return (
     <div>

@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "WatermelonDB Example",
+  title: "WatermelonDB Next.js Example",
   description: "An example of using WatermelonDB with Next.js",
 };
 
