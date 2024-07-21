@@ -1,24 +1,17 @@
 "use client";
 import { useDatabase, withObservables } from "@nozbe/watermelondb/react";
-import { Post, Comment } from "@/db/models";
+import { Post } from "@/db/models";
 import { withDatabase } from "@nozbe/watermelondb/DatabaseProvider";
 import { Database } from "@nozbe/watermelondb";
-// import { createPost } from "./db/crud";
-// import { useCrud } from "@/hooks/useCrud";
-import { use, useEffect, useState } from "react";
-// import { useDatabase } from "@nozbe/watermelondb/hooks";
-// import { withDatabase } from "./DatabaseProvider";
-
-import { database } from "@/db/database";
 import { useGetPosts } from "./hooks/useCrud";
-import { Observable } from "@nozbe/watermelondb/utils/rx";
 
 const Posts = () => {
   const posts = useGetPosts();
 
   return (
     <div>
-      <h1>hi</h1>
+      <h1>Posts:</h1>
+      <CreatePostButton />
       <CreatePostButton2 />
       <EnhancedPostsList posts={posts} />
     </div>
@@ -63,21 +56,21 @@ const CreatePostButton = () => {
   );
 };
 
-const CreatePostButtonComponent = ({ database }: { database: Database }) => {
-  const handleClick = async () => {
-    await database.write(async () => {
-      await database.get<Post>("posts").create((post) => {
-        post.title = "New post";
-        post.body = "Hello world";
+const CreatePostButton2 = withDatabase(
+  ({ database }: { database: Database }) => {
+    const handleClick = async () => {
+      await database.write(async () => {
+        await database.get<Post>("posts").create((post) => {
+          post.title = "New post";
+          post.body = "Hello world";
+        });
       });
-    });
-  };
+    };
 
-  return (
-    <button style={{ color: "red" }} onClick={handleClick}>
-      Create Post
-    </button>
-  );
-};
-
-const CreatePostButton2 = withDatabase(CreatePostButtonComponent);
+    return (
+      <button style={{ color: "red" }} onClick={handleClick}>
+        Create Post
+      </button>
+    );
+  }
+);
