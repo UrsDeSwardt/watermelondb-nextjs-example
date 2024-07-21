@@ -7,6 +7,7 @@ import {
   readonly,
   children,
   writer,
+  relation,
 } from "@nozbe/watermelondb/decorators";
 
 export class Post extends Model {
@@ -23,6 +24,10 @@ export class Post extends Model {
   @readonly @date("updated_at") updatedAt?: Date;
 
   @children("comments") comments!: Query<Comment>;
+
+  @writer async delete() {
+    await this.markAsDeleted();
+  }
 }
 
 export class Comment extends Model {
@@ -33,6 +38,8 @@ export class Comment extends Model {
 
   @text("body") body!: string;
   @field("is_spam") isSpam!: boolean;
+
+  @relation("posts", "post_id") post!: any;
 
   @writer async markAsSpam() {
     await this.update((comment) => {
