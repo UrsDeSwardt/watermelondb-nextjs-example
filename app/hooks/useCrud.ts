@@ -1,14 +1,14 @@
 import { Observable } from "@nozbe/watermelondb/utils/rx";
 import { useEffect, useState } from "react";
-
-import { database } from "@/db/database";
 import { Post } from "@/db/models";
+import { useDatabase } from "@nozbe/watermelondb/react";
 
 const defaultPostObservable = new Observable<Post[]>((observer) => {
   observer.next([]);
 });
 
 export const useGetPosts = () => {
+  const database = useDatabase();
   const [posts, setPosts] = useState<Observable<Post[]>>(defaultPostObservable);
 
   useEffect(() => {

@@ -1,9 +1,9 @@
-const Home = () => {
-  return (
-    <main>
-      <h1>Hi</h1>
-    </main>
-  );
-};
+import Posts from "./posts";
+
+const Home = () => (
+  <main>
+    <Posts />
+  </main>
+);
 
 export default Home;

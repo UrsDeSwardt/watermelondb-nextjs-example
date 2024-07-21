@@ -10,35 +10,17 @@ import { use, useEffect, useState } from "react";
 // import { withDatabase } from "./DatabaseProvider";
 
 import { database } from "@/db/database";
-import { useGetPosts } from "../hooks/useCrud";
+import { useGetPosts } from "./hooks/useCrud";
 import { Observable } from "@nozbe/watermelondb/utils/rx";
 
 const Posts = () => {
-  const defaultPostObservable = new Observable<Post[]>((observer) => {
-    observer.next([]);
-  });
-
-  const database = useDatabase();
-  const [postss, setPostss] = useState<any>(defaultPostObservable);
-  // const posts = useGetPosts();
-
-  useEffect(() => {
-    const posts = database.get<Post>("posts").query().observe();
-    setPostss(posts);
-  }, []);
-  // const posts = database.get<Post>("posts").query().observe();
-
-  // const posts = useEffect(() => {
-  //   console.log(posts);
-
-  //   setPostss(posts);
-  // }, [posts]);
+  const posts = useGetPosts();
 
   return (
     <div>
       <h1>hi</h1>
-      <CreatePostButton />
-      <EnhancedPostsList posts={postss} />
+      <CreatePostButton2 />
+      <EnhancedPostsList posts={posts} />
     </div>
   );
 };
@@ -58,12 +40,6 @@ const PostsList = ({ posts }: { posts: Post[] }) => {
     </div>
   );
 };
-
-// export default withDatabase(
-//   withObservables([], ({ database }: { database: Database }) => ({
-//     posts: database.get<Post>("posts").query().observe(),
-//   }))(Posts)
-// );
 
 const EnhancedPostsList = withObservables(["posts"], ({ posts }) => ({
   posts,
@@ -87,28 +63,21 @@ const CreatePostButton = () => {
   );
 };
 
-// import { database } from "./database";
-// import { Post } from "./models";
+const CreatePostButtonComponent = ({ database }: { database: Database }) => {
+  const handleClick = async () => {
+    await database.write(async () => {
+      await database.get<Post>("posts").create((post) => {
+        post.title = "New post";
+        post.body = "Hello world";
+      });
+    });
+  };
 
-// export const createPost = async ({
-//   title,
-//   subtitle,
-//   body,
-// }: {
-//   title: string;
-//   subtitle?: string;
-//   body: string;
-// }) => {
-//   if (typeof window !== "undefined") {
-//     await database.write(async () => {
-//       await database.get<Post>("posts").create((post) => {
-//         post.title = title;
-//         post.subtitle = subtitle;
-//         post.body = body;
-//       });
-//     });
-//     console.log("Post created!");
-//   } else {
-//     console.log("Server side");
-//   }
-// };
+  return (
+    <button style={{ color: "red" }} onClick={handleClick}>
+      Create Post
+    </button>
+  );
+};
+
+const CreatePostButton2 = withDatabase(CreatePostButtonComponent);
