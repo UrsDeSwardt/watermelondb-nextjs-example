@@ -46,4 +46,8 @@ export class Comment extends Model {
       comment.isSpam = true;
     });
   }
+
+  @writer async delete() {
+    await this.markAsDeleted();
+  }
 }

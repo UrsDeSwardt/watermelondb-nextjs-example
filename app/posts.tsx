@@ -3,7 +3,7 @@ import { useDatabase, withObservables } from "@nozbe/watermelondb/react";
 import { Post, Comment } from "@/db/models";
 import { withDatabase } from "@nozbe/watermelondb/DatabaseProvider";
 import { Database } from "@nozbe/watermelondb";
-import { useGetPosts } from "./hooks/useCrud";
+import { useGetComments, useGetPosts } from "./hooks/useCrud";
 
 const Posts = () => {
   const posts = useGetPosts(); // this is the magic hook
@@ -12,7 +12,6 @@ const Posts = () => {
     <div>
       <h1>Posts:</h1>
       <CreatePostButton />
-
       <EnhancedPostsList posts={posts} />
     </div>
   );
@@ -23,7 +22,7 @@ export default Posts;
 const PostsList = ({ posts }: { posts: Post[] }) => (
   <div>
     {posts.map((post, i) => (
-      <EnhancedPostItem key={i} post={post} />
+      <PostItem key={i} post={post} />
     ))}
   </div>
 );
@@ -32,25 +31,40 @@ const EnhancedPostsList = withObservables(["posts"], ({ posts }) => ({
   posts,
 }))(PostsList);
 
-const PostItem = ({ post, comments }: { post: Post; comments: Comment[] }) => (
-  <div>
-    <h1 style={{ fontSize: 20, margin: 10 }}>{post.title}</h1>
-    <button style={{ color: "red" }} onClick={() => post.delete()}>
-      <p>{post.body}</p>
-    </button>
+const PostItem = ({ post }: { post: Post }) => {
+  const comments = useGetComments(post.id); // this is the magic hook
+
+  return (
     <div>
-      <CreateCommentButton post={post} />
-      {comments.map((comment, i) => (
-        <p key={i}>{comment.body}</p>
-      ))}
+      <h1 style={{ fontSize: 20, margin: 15 }}>{post.title}</h1>
+      <button style={{ color: "red" }} onClick={() => post.delete()}>
+        <p>{post.body}</p>
+      </button>
+      <div>
+        <CreateCommentButton post={post} />
+        <EnhancedCommentsList comments={comments} />
+      </div>
     </div>
+  );
+};
+
+const CommentsList = ({ comments }: { comments: Comment[] }) => (
+  <div>
+    {comments.map((comment, i) => (
+      <button
+        key={i}
+        style={{ marginInline: 10 }}
+        onClick={() => comment.delete()}
+      >
+        {comment.body}
+      </button>
+    ))}
   </div>
 );
 
-const EnhancedPostItem = withObservables(["post"], ({ post }) => ({
-  post,
-  comments: post.comments.observe(),
-}))(PostItem);
+const EnhancedCommentsList = withObservables(["comments"], ({ comments }) => ({
+  comments,
+}))(CommentsList);
 
 const CreatePostButton = () => {
   const database = useDatabase(); // we can access the db like this
