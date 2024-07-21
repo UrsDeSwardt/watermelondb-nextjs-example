@@ -3,7 +3,7 @@ import { useDatabase, withObservables } from "@nozbe/watermelondb/react";
 import { Post, Comment } from "@/db/models";
 import { withDatabase } from "@nozbe/watermelondb/DatabaseProvider";
 import { Database } from "@nozbe/watermelondb";
-import { useGetComments, useGetPosts } from "./hooks/useCrud";
+import { useGetComments, useGetPosts } from "./hooks/useReadDatabase";
 
 const Posts = () => {
   const posts = useGetPosts(); // this is the magic hook
@@ -72,7 +72,7 @@ const CreatePostButton = () => {
     await database.write(async () => {
       await database.get<Post>(Post.table).create((post) => {
         post.title = "A post";
-        post.body = "Click me to delete me";
+        post.body = "Click me to delete me!";
       });
     });
   };
@@ -98,7 +98,7 @@ const CreateCommentButton = withDatabase(
 
     return (
       <button style={{ color: "blue" }} onClick={handleClick}>
-        Create a comment
+        Add a comment
       </button>
     );
   }
