@@ -3,10 +3,10 @@ import { useDatabase, withObservables } from "@nozbe/watermelondb/react";
 import { Post, Comment } from "@/db/models";
 import { withDatabase } from "@nozbe/watermelondb/DatabaseProvider";
 import { Database } from "@nozbe/watermelondb";
-import { useGetComments, useGetPosts } from "../hooks/useReadDatabase";
+import { useGetComments, useGetPosts } from "@/hooks/useQuery";
 
 const Posts = () => {
-  const posts = useGetPosts(); // we need to use this hoof for observability to work.
+  const posts = useGetPosts(); // we need to use this hook for observability to work.
 
   return (
     <div>
@@ -32,7 +32,7 @@ const EnhancedPostsList = withObservables(["posts"], ({ posts }) => ({
 }))(PostsList);
 
 const PostItem = ({ post }: { post: Post }) => {
-  const comments = useGetComments(post.id); // we need to use this hoof for observability to work.
+  const comments = useGetComments(post.id); // we need to use this hook for observability to work.
 
   return (
     <div>
@@ -66,8 +66,9 @@ const EnhancedCommentsList = withObservables(["comments"], ({ comments }) => ({
   comments,
 }))(CommentsList);
 
+// Method 1 to access the database:
 const CreatePostButton = () => {
-  const database = useDatabase(); // we can access the db like this
+  const database = useDatabase();
   const handleClick = async () => {
     await database.write(async () => {
       await database.get<Post>(Post.table).create((post) => {
@@ -84,8 +85,8 @@ const CreatePostButton = () => {
   );
 };
 
+// Method 2 to access the database:
 const CreateCommentButton = withDatabase(
-  // we can also access the db like this
   ({ database, post }: { database: Database; post: Post }) => {
     const handleClick = async () => {
       await database.write(async () => {
