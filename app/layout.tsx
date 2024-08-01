@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import dynamic from "next/dynamic";
+import DatabaseProvider from "@/app/db-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -9,10 +9,6 @@ export const metadata: Metadata = {
   title: "WatermelonDB Next.js Example",
   description: "An example of using WatermelonDB with Next.js",
 };
-
-const DatabaseProvider = dynamic(() => import("@/app/db-provider"), {
-  ssr: false,
-});
 
 export default function RootLayout({
   children,
