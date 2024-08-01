@@ -11,3 +11,5 @@ Some non-obvious things are done in this example that is not explained in the do
 npm install
 npm run dev
 ```
+
+Navigate to [http://localhost:3000](http://localhost:3000) to see the example in action.
