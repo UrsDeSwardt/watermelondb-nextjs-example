@@ -1,4 +1,4 @@
-import Posts from "./posts";
+import Posts from "../components/posts";
 
 const Home = () => (
   <main>
