@@ -4,13 +4,15 @@ import { Post } from "@/db/models";
 import { useGetComments, useGetPosts } from "@/hooks/useQuery";
 import CommentsList from "./comments";
 import { CreatePostButton, CreateCommentButton } from "./buttons";
+import useSync from "@/hooks/useSync";
 
 const Posts = () => {
   const posts = useGetPosts(); // we need to use this hook for observability to work.
+  const { sync, isSyncing } = useSync();
 
   return (
     <div>
-      <h1>Posts:</h1>
+      <h1>Posts: {isSyncing && "syncing..."}</h1>
       <CreatePostButton />
       <EnhancedPostsList posts={posts} />
     </div>

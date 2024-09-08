@@ -4,7 +4,7 @@ export default appSchema({
   version: 1,
   tables: [
     tableSchema({
-      name: "posts",
+      name: "post",
       columns: [
         { name: "title", type: "string" },
         { name: "subtitle", type: "string", isOptional: true },
@@ -12,7 +12,7 @@ export default appSchema({
       ],
     }),
     tableSchema({
-      name: "comments",
+      name: "comment",
       columns: [
         { name: "content", type: "string" },
         { name: "post_id", type: "string", isIndexed: true },
