@@ -3,6 +3,7 @@ import { useDatabase } from "@nozbe/watermelondb/react";
 import { Post, Comment } from "@/db/models";
 import { withDatabase } from "@nozbe/watermelondb/DatabaseProvider";
 import { Database } from "@nozbe/watermelondb";
+import useSync from "@/hooks/useSync";
 
 // Method 1 to access the database:
 const CreatePostButton = () => {
@@ -43,4 +44,12 @@ const CreateCommentButton = withDatabase(
   }
 );
 
-export { CreatePostButton, CreateCommentButton };
+const SyncButton = () => {
+  const { sync, isSyncing } = useSync();
+
+  return (
+    <button onClick={sync}>{isSyncing ? "Syncing..." : "Click to sync"}</button>
+  );
+};
+
+export { CreatePostButton, CreateCommentButton, SyncButton };

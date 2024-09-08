@@ -2,13 +2,17 @@ import { synchronize } from "@nozbe/watermelondb/sync";
 import { useDatabase } from "@nozbe/watermelondb/react";
 import { useState } from "react";
 
-const BASE_URL = "http://127.0.0.1:8000/sync";
+const BASE_URL = "http://localhost:8000/sync";
 
 const useSync = () => {
   const [isSyncing, setIsSyncing] = useState(false);
   const database = useDatabase();
 
   const sync = async () => {
+    if (isSyncing) {
+      return;
+    }
+
     setIsSyncing(true);
 
     await synchronize({
@@ -16,10 +20,8 @@ const useSync = () => {
       pullChanges: async ({ lastPulledAt }) => {
         const response = await fetch(
           `${BASE_URL}?last_pulled_at=${lastPulledAt || 0}`
-          //   {
-          //     method: "GET",
-          //   }
         );
+
         if (!response.ok) {
           throw new Error(await response.text());
         }

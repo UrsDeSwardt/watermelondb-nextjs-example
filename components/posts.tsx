@@ -3,17 +3,23 @@ import { withObservables } from "@nozbe/watermelondb/react";
 import { Post } from "@/db/models";
 import { useGetComments, useGetPosts } from "@/hooks/useQuery";
 import CommentsList from "./comments";
-import { CreatePostButton, CreateCommentButton } from "./buttons";
-import useSync from "@/hooks/useSync";
+import { CreatePostButton, CreateCommentButton, SyncButton } from "./buttons";
 
 const Posts = () => {
   const posts = useGetPosts(); // we need to use this hook for observability to work.
-  const { sync, isSyncing } = useSync();
 
   return (
     <div>
-      <h1>Posts: {isSyncing && "syncing..."}</h1>
-      <CreatePostButton />
+      <div style={{ marginBottom: 20 }}>
+        <SyncButton />
+      </div>
+
+      <h1>Posts:</h1>
+
+      <div>
+        <CreatePostButton />
+      </div>
+
       <EnhancedPostsList posts={posts} />
     </div>
   );
