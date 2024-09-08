@@ -10,7 +10,7 @@ const CommentsList = ({ comments }: { comments: Comment[] }) => (
         style={{ marginInline: 10 }}
         onClick={() => comment.delete()}
       >
-        {comment.body}
+        {comment.content}
       </button>
     ))}
   </div>

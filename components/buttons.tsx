@@ -11,7 +11,7 @@ const CreatePostButton = () => {
     await database.write(async () => {
       await database.get<Post>(Post.table).create((post) => {
         post.title = "A post";
-        post.body = "Click me to delete me!";
+        post.content = "Click me to delete me!";
       });
     });
   };
@@ -29,7 +29,7 @@ const CreateCommentButton = withDatabase(
     const handleClick = async () => {
       await database.write(async () => {
         await database.get<Comment>(Comment.table).create((comment) => {
-          comment.body = "A comment";
+          comment.content = "A comment";
           comment.post.set(post);
         });
       });

@@ -18,7 +18,7 @@ export class Post extends Model {
 
   @text("title") title!: string;
   @text("subtitle") subtitle?: string;
-  @text("body") body!: string;
+  @text("content") content!: string;
 
   @readonly @date("created_at") createdAt?: Date;
   @readonly @date("updated_at") updatedAt?: Date;
@@ -36,7 +36,7 @@ export class Comment extends Model {
     posts: { type: "belongs_to", key: "post_id" },
   };
 
-  @text("body") body!: string;
+  @text("content") content!: string;
   @field("is_spam") isSpam!: boolean;
 
   @relation("posts", "post_id") post!: any;

@@ -38,7 +38,7 @@ const PostItem = ({ post }: { post: Post }) => {
     <div>
       <h1 style={{ fontSize: 20, margin: 15 }}>{post.title}</h1>
       <button style={{ color: "red" }} onClick={() => post.delete()}>
-        <p>{post.body}</p>
+        <p>{post.content}</p>
       </button>
       <div>
         <CreateCommentButton post={post} />
