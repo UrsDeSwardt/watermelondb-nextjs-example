@@ -7,7 +7,7 @@ const CommentsList = ({ comments }: { comments: Comment[] }) => (
     {comments.map((comment, i) => (
       <button
         key={i}
-        style={{ marginInline: 10 }}
+        style={{ marginInline: 10, color: "black" }}
         onClick={() => comment.delete()}
       >
         {comment.content}

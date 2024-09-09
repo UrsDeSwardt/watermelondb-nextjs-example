@@ -48,7 +48,9 @@ const SyncButton = () => {
   const { sync, isSyncing } = useSync();
 
   return (
-    <button onClick={sync}>{isSyncing ? "Syncing..." : "Click to sync"}</button>
+    <button style={{ color: "black" }} onClick={sync}>
+      {isSyncing ? "Syncing..." : "Click to sync"}
+    </button>
   );
 };
 
