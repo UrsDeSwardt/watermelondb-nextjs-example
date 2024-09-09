@@ -38,6 +38,9 @@ export class Comment extends Model {
   @text("content") content!: string;
   @field("is_spam") isSpam!: boolean;
 
+  @readonly @date("created_at") createdAt?: Date;
+  @readonly @date("updated_at") updatedAt?: Date;
+
   @relation("post", "post_id") post!: any;
 
   @writer async markAsSpam() {
