@@ -1,14 +1,15 @@
 import { appSchema, tableSchema } from "@nozbe/watermelondb";
 
 export default appSchema({
-  version: 1,
+  version: 2,
   tables: [
     tableSchema({
       name: "post",
       columns: [
         { name: "title", type: "string" },
-        { name: "subtitle", type: "string", isOptional: true },
         { name: "content", type: "string" },
+        { name: "created_at", type: "number" },
+        { name: "updated_at", type: "number" },
       ],
     }),
     tableSchema({
@@ -16,6 +17,8 @@ export default appSchema({
       columns: [
         { name: "content", type: "string" },
         { name: "post_id", type: "string", isIndexed: true },
+        { name: "created_at", type: "number" },
+        { name: "updated_at", type: "number" },
       ],
     }),
   ],
