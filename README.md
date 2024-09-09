@@ -9,8 +9,13 @@ Some non-obvious things are done in this example that is not explained in the do
 
 ## Running the example
 
-```bash
+Install the dependencies and start the development server:
+
+```shell
 npm install
+```
+
+```shell
 npm run dev
 ```
 
